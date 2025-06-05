@@ -5,9 +5,9 @@ import cartIcon from '../assets/cart-icon.png'; // use your image filename
 import { useCart } from '../context/CartContext';
 
 const Navbar = () => {
-  const { cart } = useCart();
+  const { cartItems } = useCart();
 
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <nav className="bg-white shadow-md fixed w-full z-50 border-b-4 border-[#D21034]">
