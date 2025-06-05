@@ -31,10 +31,7 @@ const FoodCard = ({ item }) => {
         <div className="flex items-center justify-between">
           <span className="text-[#D21034] font-bold">{item.price}</span>
           <button
-            onClick={() => {
-              console.log('Clicked!', item); // ✅ Just for confirmation
-              addToCart(item);
-            }}
+            onClick={() => addToCart(item)}
             className="border border-white rounded-full px-4 py-1 font-bold hover:bg-white hover:text-black transition"
           >
             ORDER NOW
