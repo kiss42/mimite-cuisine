@@ -1,11 +1,16 @@
-
 import React from 'react';
 import { useCart } from '../context/CartContext';
 
 const Cart = () => {
-  const { cartItems, removeFromCart } = useCart();
+  const cartContext = useCart();
 
-  const totalPrice = cartItems.reduce((acc, item) => acc + parseFloat(item.price.replace('$', '')), 0).toFixed(2);
+  // Defensive check in case context is undefined (prevents "undefined.reduce" error)
+  const cartItems = cartContext?.cartItems || [];
+  const removeFromCart = cartContext?.removeFromCart || (() => {});
+
+  const totalPrice = cartItems
+    .reduce((acc, item) => acc + parseFloat(item.price.replace('$', '')), 0)
+    .toFixed(2);
 
   return (
     <aside className="fixed right-0 top-0 w-full sm:w-[400px] h-full bg-white shadow-lg z-50 overflow-y-auto p-6">

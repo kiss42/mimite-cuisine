@@ -1,11 +1,13 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import ReactDOM from 'react-dom/client';
 import App from './App';
 import { CartProvider } from './context/CartContext';
-import './styles/index.css';
+import './styles/index.css'; // ✅ This brings in your Tailwind and custom CSS
 
-createRoot(document.getElementById('root')).render(
-  <CartProvider>
-    <App />
-  </CartProvider>
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <CartProvider>
+      <App />
+    </CartProvider>
+  </React.StrictMode>
 );
