@@ -1,13 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // if routing is used
 import logo from '../assets/logo.png';
-import cartIcon from '../assets/cart-icon.png'; // use your image filename
-import { useCart } from '../context/CartContext';
 
 const Navbar = () => {
-  const { cartItems } = useCart();
-
-  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <nav className="bg-white shadow-md fixed w-full z-50 border-b-4 border-[#D21034]">
@@ -35,16 +29,6 @@ const Navbar = () => {
             </li>
           ))}
 
-          <li className="relative">
-            <Link to="/cart">
-              <img src={cartIcon} alt="Cart" className="w-8 h-8" />
-              {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                  {totalItems}
-                </span>
-              )}
-            </Link>
-          </li>
         </ul>
       </div>
     </nav>
