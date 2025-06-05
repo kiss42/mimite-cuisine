@@ -1,52 +1,67 @@
 import React from 'react';
 import { useCart } from '../context/CartContext';
 
-const Cart = () => {
-  const cartContext = useCart();
-
-  // Defensive check in case context is undefined (prevents "undefined.reduce" error)
-  const cartItems = cartContext?.cartItems || [];
-  const removeFromCart = cartContext?.removeFromCart || (() => {});
-
-  const totalPrice = cartItems
-    .reduce((acc, item) => acc + parseFloat(item.price.replace('$', '')), 0)
-    .toFixed(2);
+const Cart = ({ isOpen, onClose }) => {
+  const { cartItems, removeItem, updateItemQuantity, total } = useCart();
 
   return (
-    <aside className="fixed right-0 top-0 w-full sm:w-[400px] h-full bg-white shadow-lg z-50 overflow-y-auto p-6">
-      <h2 className="text-2xl font-bold text-[#00209F] mb-4">Your Cart</h2>
-
-      {cartItems.length === 0 ? (
-        <p className="text-gray-600">Your cart is empty.</p>
-      ) : (
-        <div className="space-y-6">
-          {cartItems.map((item, index) => (
-            <div key={index} className="flex items-start justify-between gap-4 border-b pb-4">
-              <img src={item.image} alt={item.name} className="w-24 h-24 rounded object-cover" />
-              <div className="flex-1">
-                <h4 className="font-bold text-lg">{item.name}</h4>
-                <p className="text-sm text-gray-600">{item.description}</p>
-                <div className="mt-2 flex justify-between items-center">
-                  <span className="text-[#D21034] font-bold">{item.price}</span>
-                  <button
-                    className="text-sm text-red-600 hover:underline"
-                    onClick={() => removeFromCart(index)}
-                  >
-                    Remove
-                  </button>
-                </div>
+    <div
+      className={`fixed inset-0 z-50 ${isOpen ? '' : 'pointer-events-none'}`}
+    >
+      <div
+        className={`absolute inset-0 bg-black bg-opacity-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0'}`}
+        onClick={onClose}
+      />
+      <div
+        className={`absolute right-0 top-0 h-full w-80 bg-white shadow-lg transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+      >
+        <div className="p-4 flex justify-between items-center border-b">
+          <h2 className="text-xl font-bold">Your Cart</h2>
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-800"
+          >
+            &times;
+          </button>
+        </div>
+        <div className="p-4 overflow-y-auto flex-1">
+          {cartItems.length === 0 && (
+            <p className="text-center text-gray-500 mt-8">Your cart is empty.</p>
+          )}
+          {cartItems.map((item) => (
+            <div key={item.name} className="flex justify-between items-center mb-4">
+              <div>
+                <p className="font-semibold">{item.name}</p>
+                <p className="text-sm text-gray-600">{item.price}</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  min="1"
+                  value={item.quantity}
+                  onChange={(e) =>
+                    updateItemQuantity(item.name, parseInt(e.target.value, 10))
+                  }
+                  className="w-16 border rounded px-2 py-1"
+                />
+                <button
+                  onClick={() => removeItem(item.name)}
+                  className="text-red-500 hover:underline"
+                >
+                  Remove
+                </button>
               </div>
             </div>
           ))}
-          <div className="text-right mt-6">
-            <p className="text-xl font-bold">Total: ${totalPrice}</p>
-            <button className="mt-4 w-full bg-[#00209F] text-white font-semibold py-2 rounded hover:bg-[#001970] transition">
-              Proceed to Checkout
-            </button>
-          </div>
         </div>
-      )}
-    </aside>
+        <div className="p-4 border-t">
+          <p className="flex justify-between font-bold">
+            <span>Total:</span>
+            <span>${total.toFixed(2)}</span>
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 
