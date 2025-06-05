@@ -1,8 +1,8 @@
 import React from 'react';
-import { useCart } from '../context/CartContext'; // adjust path if needed
+import { useCart } from '../context/CartContext';
 
 const FoodCard = ({ item }) => {
-  const { addToCart } = useCart();
+  const { addItem } = useCart();
 
   return (
     <div className="bg-[#1e1e1e] text-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition w-full max-w-sm mx-auto">
@@ -31,7 +31,7 @@ const FoodCard = ({ item }) => {
         <div className="flex items-center justify-between">
           <span className="text-[#D21034] font-bold">{item.price}</span>
           <button
-            onClick={() => addToCart(item)}
+            onClick={() => addItem(item)}
             className="border border-white rounded-full px-4 py-1 font-bold hover:bg-white hover:text-black transition"
           >
             ORDER NOW

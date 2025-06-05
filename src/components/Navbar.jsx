@@ -1,13 +1,11 @@
-import React from 'react';
-import { Link } from 'react-router-dom'; // if routing is used
+import React, { useState } from 'react';
 import logo from '../assets/logo.png';
-import cartIcon from '../assets/cart-icon.png'; // use your image filename
+import Cart from './Cart';
 import { useCart } from '../context/CartContext';
 
 const Navbar = () => {
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const { cartItems } = useCart();
-
-  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <nav className="bg-white shadow-md fixed w-full z-50 border-b-4 border-[#D21034]">
@@ -34,19 +32,32 @@ const Navbar = () => {
               </a>
             </li>
           ))}
-
-          <li className="relative">
-            <Link to="/cart">
-              <img src={cartIcon} alt="Cart" className="w-8 h-8" />
-              {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                  {totalItems}
+          <li>
+            <button onClick={() => setIsCartOpen(true)} className="relative">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9h13m-3 0a2 2 0 11-4 0"
+                />
+              </svg>
+              {cartItems.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-[#D21034] text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                  {cartItems.length}
                 </span>
               )}
-            </Link>
+            </button>
           </li>
         </ul>
       </div>
+      <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </nav>
   );
 };
