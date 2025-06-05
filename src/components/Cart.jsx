@@ -25,7 +25,7 @@ const Cart = () => {
                   <span className="text-[#D21034] font-bold">{item.price}</span>
                   <button
                     className="text-sm text-red-600 hover:underline"
-                    onClick={() => removeFromCart(item)}
+                    onClick={() => removeFromCart(index)}
                   >
                     Remove
                   </button>
