@@ -1,17 +1,35 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import DeliveryForm from './DeliveryForm';
 
 const DELIVERY_FEE = 5.0;
 
 const Cart = ({ isOpen, onClose }) => {
   const { cartItems, removeItem, total } = useCart();
-  const [deliveryMethod, setDeliveryMethod] = useState('pickup'); // default
+  const [deliveryMethod, setDeliveryMethod] = useState('pickup');
+  const [showForm, setShowForm] = useState(false);
 
   if (!isOpen) return null;
 
   const isDelivery = deliveryMethod === 'delivery';
   const finalTotal = (total + (isDelivery ? DELIVERY_FEE : 0)).toFixed(2);
+
+  const handleCheckout = () => {
+    if (isDelivery) {
+      setShowForm(true);
+    } else {
+      alert('Order placed for pickup!');
+      onClose(); // Optionally close cart after pickup order
+    }
+  };
+
+  const handleDeliverySubmit = (info) => {
+    console.log('Delivery Info:', info);
+    alert('Order placed for delivery!');
+    setShowForm(false);
+    onClose();
+  };
 
   return (
     <aside className="fixed right-0 top-0 w-full sm:w-[400px] h-full bg-white shadow-lg z-50 overflow-y-auto p-6">
@@ -45,14 +63,16 @@ const Cart = ({ isOpen, onClose }) => {
             </div>
           ))}
 
-          {/* Delivery or Pickup Selector */}
           <div className="mt-6">
             <label className="block font-semibold text-gray-700 mb-2">
               How would you like to receive your order?
             </label>
             <div className="flex gap-4">
               <button
-                onClick={() => setDeliveryMethod('pickup')}
+                onClick={() => {
+                  setDeliveryMethod('pickup');
+                  setShowForm(false);
+                }}
                 className={`px-4 py-2 rounded border ${
                   deliveryMethod === 'pickup'
                     ? 'bg-[#00209F] text-white'
@@ -74,13 +94,19 @@ const Cart = ({ isOpen, onClose }) => {
             </div>
           </div>
 
-          {/* Total and Checkout */}
           <div className="text-right mt-6">
             <p className="text-xl font-bold">Total: ${finalTotal}</p>
-            <button className="mt-4 w-full bg-[#00209F] text-white font-semibold py-2 rounded hover:bg-[#001970] transition">
+            <button
+              onClick={handleCheckout}
+              className="mt-4 w-full bg-[#00209F] text-white font-semibold py-2 rounded hover:bg-[#001970] transition"
+            >
               Proceed to Checkout
             </button>
           </div>
+
+          {isDelivery && showForm && (
+            <DeliveryForm onSubmit={handleDeliverySubmit} />
+          )}
         </div>
       )}
     </aside>
