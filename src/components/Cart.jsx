@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X } from 'lucide-react';
+import { X, Trash2, Truck, Store } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import DeliveryForm from './DeliveryForm';
 
@@ -20,7 +20,7 @@ const Cart = ({ isOpen, onClose }) => {
       setShowForm(true);
     } else {
       alert('Order placed for pickup!');
-      onClose(); // Optionally close cart after pickup order
+      onClose();
     }
   };
 
@@ -53,9 +53,10 @@ const Cart = ({ isOpen, onClose }) => {
                 <div className="mt-2 flex justify-between items-center">
                   <span className="text-[#D21034] font-bold">{item.price}</span>
                   <button
-                    className="text-sm text-red-600 hover:underline"
+                    className="text-sm text-red-600 flex items-center gap-1 hover:underline"
                     onClick={() => removeItem(item.name)}
                   >
+                    <Trash2 className="w-4 h-4" />
                     Remove
                   </button>
                 </div>
@@ -73,23 +74,23 @@ const Cart = ({ isOpen, onClose }) => {
                   setDeliveryMethod('pickup');
                   setShowForm(false);
                 }}
-                className={`px-4 py-2 rounded border ${
+                className={`flex items-center gap-2 px-4 py-2 rounded border ${
                   deliveryMethod === 'pickup'
                     ? 'bg-[#00209F] text-white'
                     : 'bg-white text-gray-700 border-gray-300'
                 }`}
               >
-                Pickup
+                <Store className="w-4 h-4" /> Pickup
               </button>
               <button
                 onClick={() => setDeliveryMethod('delivery')}
-                className={`px-4 py-2 rounded border ${
+                className={`flex items-center gap-2 px-4 py-2 rounded border ${
                   deliveryMethod === 'delivery'
                     ? 'bg-[#00209F] text-white'
                     : 'bg-white text-gray-700 border-gray-300'
                 }`}
               >
-                Delivery (+${DELIVERY_FEE})
+                <Truck className="w-4 h-4" /> Delivery (+${DELIVERY_FEE})
               </button>
             </div>
           </div>

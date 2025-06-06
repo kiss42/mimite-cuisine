@@ -1,19 +1,31 @@
 import React from 'react';
+import { ChevronDown } from 'lucide-react';
+import heroImage from '../assets/background.png'; // Replace with your actual hero image
 
 const Hero = () => {
   return (
     <section
-      id="home"
-      className="h-screen flex items-center justify-center bg-gradient-to-b from-[#00209F] to-[#D21034] text-center px-4 pt-20"
+      className="relative h-screen bg-cover bg-center flex items-center justify-center text-white"
+      style={{
+        backgroundImage: `url(${heroImage})`,
+      }}
     >
-      <div className="max-w-2xl text-white">
-        <h1 className="text-6xl font-extrabold mb-4 drop-shadow-lg">Taste the Culture</h1>
-        <p className="text-xl mb-6">Authentic Haitian meals crafted with love and tradition.</p>
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-red bg-opacity-50" />
+
+      {/* Content */}
+      <div className="relative z-10 text-center px-6 max-w-3xl">
+        <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight text-black drop-shadow-lg">
+          Taste the Heart of Haiti
+        </h1>
+        <p className="mt-4 text-lg sm:text-xl text-gray-200 font-medium">
+          Authentic Haitian cuisine made with love & tradition.
+        </p>
         <a
           href="#menu"
-          className="inline-block bg-white text-[#00209F] hover:bg-gray-100 text-lg font-semibold py-3 px-6 rounded-full transition duration-300 shadow-md"
+          className="mt-6 inline-flex items-center gap-2 px-6 py-3 rounded bg-[#D21034] hover:bg-[#b10f2f] transition font-semibold shadow-lg"
         >
-          See Menu
+          Explore Menu <ChevronDown className="w-5 h-5" />
         </a>
       </div>
     </section>
