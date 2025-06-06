@@ -4,7 +4,7 @@ const menuItems = [
   {
     name: 'Fried Pâté Box',
     description: 'Crispy Haitian-style fried patties filled with savory meat, served with pikliz and a touch of spice.',
-    price: '$10.99',
+    price: '$24.99',
     image: friedPate,
     rating: 5,
     reviews: [
